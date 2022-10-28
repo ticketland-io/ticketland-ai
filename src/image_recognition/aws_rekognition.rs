@@ -1,4 +1,7 @@
-use aws_types::Credentials;
+use aws_types::{
+  Credentials,
+  region::Region,
+};
 use aws_smithy_types::Blob;
 use aws_sdk_rekognition::{
   Client,
@@ -11,10 +14,12 @@ pub struct AwsRekognition {
 }
 
 impl AwsRekognition {
-  pub async fn new(access_key: &str, secret_key: &str) -> Self {
+  pub async fn new(access_key: &str, secret_key: &str, region: String) -> Self {
     let credentials = Credentials::new(access_key, secret_key, None, None, "");
+    let region = Region::new(region);
 
     let config = aws_config::from_env()
+    .region(region)
     .credentials_provider(credentials)
     .load()
     .await;
