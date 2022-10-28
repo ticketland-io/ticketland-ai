@@ -1,4 +1,3 @@
-use std::sync::Arc;
 use aws_types::Credentials;
 use aws_smithy_types::Blob;
 use aws_sdk_rekognition::{
@@ -8,7 +7,7 @@ use aws_sdk_rekognition::{
 use eyre::Result;
 
 pub struct AwsRekognition {
-  client: Arc<Client>,
+  client: Client,
 }
 
 impl AwsRekognition {
@@ -20,7 +19,7 @@ impl AwsRekognition {
     .load()
     .await;
 
-    let client = Arc::new(Client::new(&config));
+    let client = Client::new(&config);
 
     Self {client}
   }
